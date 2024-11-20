@@ -1,6 +1,6 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class MNISTClassifier(nn.Module):
     def __init__(self):
@@ -18,4 +18,4 @@ class MNISTClassifier(nn.Module):
         return F.log_softmax(x, dim=1)
     
     def count_parameters(self):
-        return sum(p.numel() for p in self.parameters() if p.requires_grad) 
+        return sum(p.numel() for p in self.parameters() if p.requires_grad)

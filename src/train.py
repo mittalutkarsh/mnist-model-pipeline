@@ -6,9 +6,9 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import logging
 
-from model import MNISTClassifier
 from utils import setup_logging, save_model
 from models import get_model
+
 
 def train(model_name='simple_cnn'):
     """Train the specified model."""
@@ -59,6 +59,7 @@ def train(model_name='simple_cnn'):
     logging.info(f'Model saved to {save_path}')
     
     return accuracy
+
 
 if __name__ == '__main__':
     train() 

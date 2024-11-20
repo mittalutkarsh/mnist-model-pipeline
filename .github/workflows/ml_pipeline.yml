@@ -14,15 +14,15 @@ jobs:
         python-version: [3.9]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 
     - name: Cache pip packages
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
@@ -57,7 +57,7 @@ jobs:
         "
 
     - name: Archive best model
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: success()
       with:
         name: best-model
@@ -65,7 +65,7 @@ jobs:
         retention-days: 5
 
     - name: Archive test results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results

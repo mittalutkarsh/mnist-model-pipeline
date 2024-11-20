@@ -2,14 +2,17 @@ import torch
 import os
 from datetime import datetime
 import logging
+from models import get_model
 
 def setup_logging():
+    """Configure logging settings."""
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
 
 def save_model(model, accuracy, base_path='models'):
+    """Save model with timestamp and accuracy."""
     os.makedirs(base_path, exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     filename = f'mnist_model_{timestamp}_acc_{accuracy:.4f}.pth'
@@ -23,13 +26,16 @@ def save_model(model, accuracy, base_path='models'):
     
     return path
 
-def load_model(path):
+def load_model(path, model_name='model2_cnn'):
+    """Load model from path."""
     checkpoint = torch.load(path)
-    model = MNISTClassifier()
+    ModelClass = get_model(model_name)
+    model = ModelClass()
     model.load_state_dict(checkpoint['model_state_dict'])
     return model, checkpoint['accuracy']
 
 def get_latest_model(base_path='models'):
+    """Get the path to the most recent model."""
     if not os.path.exists(base_path):
         return None
     
