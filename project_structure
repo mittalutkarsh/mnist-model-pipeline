@@ -1,0 +1,12 @@
+mnist_pipeline/
+├── src/
+│   ├── __init__.py
+│   ├── model.py
+│   ├── train.py
+│   ├── test_model.py
+│   └── utils.py
+├── requirements.txt
+├── .gitignore
+└── .github/
+    └── workflows/
+        └── ml_pipeline.yml 

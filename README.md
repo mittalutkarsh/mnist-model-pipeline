@@ -6,8 +6,8 @@ A comprehensive CI/CD pipeline for training and validating MNIST digit classific
 
 This project implements multiple CNN architectures for MNIST digit classification with a focus on:
 - Automated testing and validation
-- Parameter efficiency (< 25K parameters)
-- High accuracy (> 95%)
+- Parameter efficiency = 10K
+- Accuracy - 95.3%
 - CI/CD integration
 
 ## Model Architectures

@@ -1,0 +1,87 @@
+name: ML Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache pip packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        pip install -r requirements.txt
+
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
+
+    - name: Run model tests
+      run: |
+        pytest -v src/test_model.py -k "model2_cnn"
+
+    - name: Train best model
+      run: |
+        echo "Training Model2CNN (Best Architecture)..."
+        python -c "
+        from train import train
+        accuracy = train('model2_cnn')
+        print(f'Model2CNN Accuracy: {accuracy:.4%}')
+        assert accuracy > 0.95, f'Accuracy {accuracy:.4%} below threshold'
+        "
+
+    - name: Archive best model
+      uses: actions/upload-artifact@v2
+      if: success()
+      with:
+        name: best-model
+        path: models/
+        retention-days: 5
+
+    - name: Archive test results
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: test-results
+        path: |
+          .pytest_cache/
+          *.log
+        retention-days: 5
+
+    - name: Verify model performance
+      run: |
+        echo "Verifying Model2CNN performance..."
+        python -c "
+        from utils import get_latest_model
+        import torch
+        checkpoint = torch.load(get_latest_model())
+        accuracy = checkpoint['accuracy']
+        print(f'Final Model2CNN accuracy: {accuracy:.4%}')
+        assert accuracy > 0.95, f'Model accuracy {accuracy:.4%} below requirement'
+        "
