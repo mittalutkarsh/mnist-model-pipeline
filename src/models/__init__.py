@@ -1,7 +1,7 @@
-from .simple_cnn import SimpleCNN
-from .deeper_cnn import DeeperCNN
-from .model1_cnn import Model1CNN
-from .model2_cnn import Model2CNN
+from src.models.simple_cnn import SimpleCNN
+from src.models.deeper_cnn import DeeperCNN
+from src.models.model1_cnn import Model1CNN
+from src.models.model2_cnn import Model2CNN
 
 # Dictionary mapping model names to their classes
 MODEL_REGISTRY = {
@@ -16,7 +16,8 @@ def get_model(model_name):
     if model_name not in MODEL_REGISTRY:
         available_models = list(MODEL_REGISTRY.keys())
         raise ValueError(
-            f"Model '{model_name}' not found. Available models: {available_models}"
+            f"Model '{model_name}' not found. "
+            f"Available models: {available_models}"
         )
     return MODEL_REGISTRY[model_name]
 

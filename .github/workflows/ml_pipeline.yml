@@ -34,7 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         pip install -r requirements.txt
-        pip install -e .
+        PYTHONPATH=$PWD pip install -e .
 
     - name: Lint with flake8
       run: |
@@ -45,7 +45,7 @@ jobs:
 
     - name: Run model tests
       run: |
-        python -m pytest -v src/test_model.py -k "model2_cnn"
+        PYTHONPATH=$PWD python -m pytest -v src/test_model.py -k "model2_cnn"
 
     - name: Train best model
       run: |
