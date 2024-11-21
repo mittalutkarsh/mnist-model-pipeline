@@ -2,7 +2,7 @@ import torch
 import os
 from datetime import datetime
 import logging
-from models import get_model
+from src.models import get_model
 
 def setup_logging():
     """Configure logging settings."""

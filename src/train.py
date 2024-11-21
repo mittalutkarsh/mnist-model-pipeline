@@ -6,8 +6,8 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import logging
 
-from utils import setup_logging, save_model
-from models import get_model
+from src.utils import setup_logging, save_model
+from src.models import get_model
 
 
 def train(model_name='simple_cnn'):

@@ -1,8 +1,8 @@
 import torch
 import os
 import pytest
-from models import get_model, list_available_models
-from train import train
+from src.models import get_model, list_available_models
+from src.train import train
 
 
 def get_test_models():
