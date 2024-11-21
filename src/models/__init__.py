@@ -1,7 +1,7 @@
-from src.models.simple_cnn import SimpleCNN
-from src.models.deeper_cnn import DeeperCNN
-from src.models.model1_cnn import Model1CNN
-from src.models.model2_cnn import Model2CNN
+from .simple_cnn import SimpleCNN
+from .deeper_cnn import DeeperCNN
+from .model1_cnn import Model1CNN
+from .model2_cnn import Model2CNN
 
 # Dictionary mapping model names to their classes
 MODEL_REGISTRY = {
