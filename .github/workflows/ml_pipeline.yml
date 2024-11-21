@@ -34,6 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         pip install -r requirements.txt
+        pip install -e .
 
     - name: Lint with flake8
       run: |
@@ -44,13 +45,13 @@ jobs:
 
     - name: Run model tests
       run: |
-        pytest -v src/test_model.py -k "model2_cnn"
+        python -m pytest -v src/test_model.py -k "model2_cnn"
 
     - name: Train best model
       run: |
         echo "Training Model2CNN (Best Architecture)..."
         python -c "
-        from train import train
+        from src.train import train
         accuracy = train('model2_cnn')
         print(f'Model2CNN Accuracy: {accuracy:.4%}')
         assert accuracy > 0.95, f'Accuracy {accuracy:.4%} below threshold'
@@ -78,7 +79,7 @@ jobs:
       run: |
         echo "Verifying Model2CNN performance..."
         python -c "
-        from utils import get_latest_model
+        from src.utils import get_latest_model
         import torch
         checkpoint = torch.load(get_latest_model())
         accuracy = checkpoint['accuracy']
